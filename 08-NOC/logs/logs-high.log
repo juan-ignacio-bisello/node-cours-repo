@@ -1,0 +1,5 @@
+{"level":"high","message":"TypeError: fetch failed","createdAt":"2025-10-15T22:13:50.048Z"}
+{"level":"high","message":"TypeError: fetch failed","createdAt":"2025-10-15T22:13:55.004Z"}
+{"level":"high","message":"TypeError: fetch failed","createdAt":"2025-10-15T22:14:00.004Z"}
+{"level":"high","message":"http://localhost:3000/posts - TypeError: fetch failed","createdAt":"2025-10-15T22:15:20.049Z"}
+{"level":"high","message":"http://localhost:3000/posts - TypeError: fetch failed","createdAt":"2025-10-15T22:15:25.013Z"}

@@ -1,0 +1,12 @@
+{"level":"low","message":"Service https://www.google.com is OK","createdAt":"2025-10-15T22:10:55.181Z"}
+{"level":"low","message":"Service https://www.google.com is OK","createdAt":"2025-10-15T22:11:00.108Z"}
+{"level":"low","message":"Service https://www.google.com is OK","createdAt":"2025-10-15T22:11:05.106Z"}
+{"level":"low","message":"Service https://www.google.com is OK","createdAt":"2025-10-15T22:11:10.109Z"}
+{"level":"low","message":"TypeError: fetch failed","createdAt":"2025-10-15T22:13:15.052Z"}
+{"level":"low","message":"TypeError: fetch failed","createdAt":"2025-10-15T22:13:20.016Z"}
+{"level":"low","message":"TypeError: fetch failed","createdAt":"2025-10-15T22:13:25.018Z"}
+{"level":"high","message":"TypeError: fetch failed","createdAt":"2025-10-15T22:13:50.048Z"}
+{"level":"high","message":"TypeError: fetch failed","createdAt":"2025-10-15T22:13:55.004Z"}
+{"level":"high","message":"TypeError: fetch failed","createdAt":"2025-10-15T22:14:00.004Z"}
+{"level":"high","message":"http://localhost:3000/posts - TypeError: fetch failed","createdAt":"2025-10-15T22:15:20.049Z"}
+{"level":"high","message":"http://localhost:3000/posts - TypeError: fetch failed","createdAt":"2025-10-15T22:15:25.013Z"}
