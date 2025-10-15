@@ -17,12 +17,12 @@ export class Server {
         CronService.createJob( 
             '*/5 * * * * *', 
             () => {
-                // const url = 'https://www.google.com';
-                const url = 'http://localhost:3000/posts';
+                const url = 'https://www.google.com';
+                // const url = 'http://localhost:3000/posts';
                 new checkService(
                     fileSystemLogRepository,
-                    () => console.log(` ${ url } is ok!`),
-                    (error) => console.log('Failure callback executed with error:', error)
+                    undefined,
+                    undefined
                 ).execute( url);
                 // new checkService().execute( 'http://localhost:3000/posts');
             }
