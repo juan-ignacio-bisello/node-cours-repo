@@ -24,14 +24,14 @@ export class checkService implements checkServiceUseCase {
             if ( !req.ok ) {
                 throw new Error('Service is down');
             }
-            const log = new LogEntity(`Service ${url} is OK`, LogLevel.low);
+            const log = new LogEntity({ message:`Service ${url} is OK`, level: LogLevel.low, origin: 'check-service.ts' });
             this.logRepository.saveLog( log );
             this.successCallback && this.successCallback();
             
             return true;
         } catch (error) {
             const errorMensage = `${ url } - ${ error }`;
-            const log = new LogEntity( errorMensage, LogLevel.high );
+            const log = new LogEntity({ message: errorMensage, level: LogLevel.high, origin: 'check-service.ts' });
             this.logRepository.saveLog( log );
             this.failureCallback && this.failureCallback( errorMensage );
             return false;
