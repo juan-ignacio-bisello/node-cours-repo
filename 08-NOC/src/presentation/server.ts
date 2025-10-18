@@ -17,14 +17,9 @@ export class Server {
 
         const emailService = new EmailService();
 
-        emailService.sendEmail({
-            to: 'ignaciodxtree99@live.com.ar',
-            subject: 'Test Email from Node.js NOC',
-            htmlBody: `
-                <h1>This is a test email sent from Node.js using Nodemailer!</h1>
-                <p>Hello! This email confirms that the email service is working correctly.</p>
-                `
-        })
+        emailService.sendEmailWithFileSystemLogs(
+            ['ignaciodxtree99@live.com.ar', 'juanignaciobisello@hotmail.com']
+        );
         // CronService.createJob( 
         //     '*/5 * * * * *', 
         //     () => {
