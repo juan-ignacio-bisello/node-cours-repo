@@ -1,4 +1,4 @@
-import { envs } from './config/plugins/envs.config';
+import { LogModel, MongoDataBase } from './data/mongo';
 import { Server } from './presentation/server';
 
 
@@ -7,7 +7,21 @@ import { Server } from './presentation/server';
     main();
 })();
 
-function main() {
+async function main() {
     Server.start();
+
     // console.log( envs );
+    // await MongoDataBase.connect();
+
+    // const newLog = await LogModel.create({
+    //     message: 'Este es un log de prueba',
+    //     level: 'low',
+    //     origin: 'App.ts'
+    // });
+
+    // await newLog.save();
+    // console.log('Log saved:', newLog);
+
+    // const logs = await LogModel.find();
+    // console.log('All logs:', logs);
 }

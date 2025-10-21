@@ -27,7 +27,9 @@ export class LogEntity {
         this.origin = origin;
     }
 
-    static fromJSON = ( json: string):LogEntity => {
+    static fromJSON = ( json: string = '{}'):LogEntity => {
+        json = ( json === '' ) ? '{}' : json;
+        
         const { level, message, createdAt, origin } = JSON.parse( json );
         
         if ( !level || !message || !createdAt ) {

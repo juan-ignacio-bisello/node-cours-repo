@@ -1,3 +1,4 @@
+import { LogLevel } from "../domain/entities/log.entity";
 import { checkService } from "../domain/use-cases/checks/check-service";
 import { SendEmailLogs } from "../domain/use-cases/email/send-email-logs";
 import { fileSystemDatasource } from "../infrastructure/datasources/file-system.datasource";
@@ -6,7 +7,7 @@ import { CronService } from "./cron/cron-service";
 import { EmailService } from "./email/email.service";
 
 
-const fileSystemLogRepository = new LogRepositoryImpl(
+const LogRepository = new LogRepositoryImpl(
     new fileSystemDatasource()
 )
     
@@ -15,9 +16,12 @@ const fileSystemLogRepository = new LogRepositoryImpl(
 
 export class Server {
 
-    public static start() {
+    public static async start() {
         console.log('Server started...');
 
+
+        const logs = LogRepository.getLog( LogLevel.low );
+        console.log( logs )
         // new SendEmailLogs(
         //     emailService, fileSystemLogRepository
         // ).execute(
@@ -33,7 +37,7 @@ export class Server {
         //         const url = 'https://www.google.com';
         //         // const url = 'http://localhost:3000/posts';
         //         new checkService(
-        //             fileSystemLogRepository,
+        //             LogRepository,
         //             undefined,
         //             undefined
         //         ).execute( url);
