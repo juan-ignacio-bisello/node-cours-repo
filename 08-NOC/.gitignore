@@ -3,6 +3,9 @@ dist/
 
 logs/
 .DS_Store
-mongo/
 
+mongo/
+postgres/
+prisma/
 .env
+/src/generated/prisma
