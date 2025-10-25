@@ -25,6 +25,9 @@ export class Server {
 
     async start() {
 
+        this.app.use( exprees.json() );
+        this.app.use( exprees.urlencoded({ extended: true }) );
+
         this.app.use( exprees.static( this.publicPath ) );
 
         //* Routes
