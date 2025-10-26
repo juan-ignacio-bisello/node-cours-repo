@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
 
 const todo = [
-    { id: 1, title: 'Learn TypeScript', completedAt: new Date() },
-    { id: 2, title: 'Build a REST API', completedAt: null },
-    { id: 3, title: 'Write unit tests', completedAt: new Date() },
+    { id: 1, text: 'Learn TypeScript', completedAt: new Date() },
+    { id: 2, text: 'Build a REST API', completedAt: null },
+    { id: 3, text: 'Write unit tests', completedAt: new Date() },
 ];
 
 export class TodoController {
@@ -34,15 +34,15 @@ export class TodoController {
 
     public createTodo = ( req:Request, res:Response ) => {
 
-        const { title, createdAt } = req.body;
+        const { text, createdAt } = req.body;
 
-        if ( !title ) {
-            return res.status( 400 ).json({ error: 'title is required' });
+        if ( !text ) {
+            return res.status( 400 ).json({ error: 'text is required' });
         }
 
         const newTodo = {
             id: todo.length + 1,
-            title: title,
+            text: text,
             completedAt: createdAt ? new Date( createdAt ) : null,
         };
 
@@ -60,14 +60,14 @@ export class TodoController {
         if ( isNaN( id ) ) return res.status( 400 ).json({ error: 'Invalid ID' });
         const found = todo.find( t => t.id === id );
         if ( !found ) return res.status( 404 ).json({ message: 'Todo not found' });
-        const { title, completedAt } = req.body;
-        if ( !title ) return res.status( 400 ).json({ error: 'option is required' });
+        const { text, completedAt } = req.body;
+        if ( !text ) return res.status( 400 ).json({ error: 'option is required' });
         
         (completedAt === 'null' )
             ? found.completedAt = null
             : found.completedAt = new Date( completedAt || found.completedAt );
 
-        found.title = title || found.title;
+        found.text = text || found.text;
         found.completedAt = completedAt ? new Date( completedAt ) : found.completedAt;
 
         res.json( found );

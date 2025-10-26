@@ -3,3 +3,5 @@ dist/
 certificate
 .env
 .DS_Store
+
+postgres/
