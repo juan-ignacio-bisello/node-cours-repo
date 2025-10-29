@@ -1,4 +1,5 @@
 import exprees, { Router } from 'express';
+import compression from 'compression'
 import path from 'path';
 
 interface Options {
@@ -27,6 +28,7 @@ export class Server {
 
         this.app.use( exprees.json() );
         this.app.use( exprees.urlencoded({ extended: true }) );
+        this.app.use( compression() );
 
         this.app.use( exprees.static( this.publicPath ) );
 
