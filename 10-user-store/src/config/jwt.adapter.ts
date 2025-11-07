@@ -1,14 +1,16 @@
 import jwt, { Secret } from 'jsonwebtoken';
+import { envs } from './envs';
 
+
+const JWT_SEED = envs.JWT_SEED;
 
 export class JWTAdapter {
 
 
-    static generateToken( payload: any, duration: string = '2h' ) {
+    static generateToken( payload: any, duration: number = 2 ) {
 
         return new Promise(( resolve ) => {
-            const secret: Secret = "default_seed";
-            jwt.sign( payload, secret, { expiresIn: 60 * 60 * 2 }, (err, token ) => {
+            jwt.sign( payload, JWT_SEED, { expiresIn: 60 * 60 * duration }, (err, token ) => {
                 if ( err || !token ) return resolve( null );
                 return resolve( token );
             }) 
@@ -18,8 +20,6 @@ export class JWTAdapter {
     }
 
     static validateToken( token: string ) {
-        
-        
-        return ;
+        throw new Error('Not implemented');
     }
 }
