@@ -29,9 +29,12 @@ export class AuthService {
 
             const { password, ...userEntity} = UserEntity.fromObject( user );
 
+            const token = await JWTAdapter.generateToken({ id: user.id });
+            if ( !token ) throw CustomError.internalServer('Error while creating jwt');
+
             return { 
                 user: userEntity, 
-                token: 'abc'
+                token: token
             };
 
         } catch (error) {
@@ -66,13 +69,23 @@ export class AuthService {
         const token = await JWTAdapter.generateToken({ email });
         if ( !token ) throw CustomError.internalServer('Error getting token');
 
-        const link = `${ envs.WEBSERVICE_URL }/auth/validate-email/${ email }`;
+        const link = `${envs.WEBSERVICE_URL}/auth/validate-email/${encodeURIComponent(String(token))}`;
+
 
         const html = `
-            <h1>Validate your Email</h1>
-            <p>click for validate</p>
-            <a> link: ${ link } - email: ${ email } </a>
+          <div style="font-family: Arial, sans-serif; color: #333;">
+            <h2>Validate your Email</h2>
+            <p>Click the button below to validate your account:</p>
+            <a href="${link}" 
+               style="display: inline-block; background-color: #007BFF; color: white; 
+                      padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+               Validate Email
+            </a>
+            <p>If the button doesn’t work, copy and paste this link in your browser:</p>
+            <p>${link}</p>
+          </div>
         `;
+
 
         const options = {
             to: email,
@@ -82,6 +95,22 @@ export class AuthService {
 
         const isSet = await this.emailService.sendEmail( options );
         if ( !isSet ) throw CustomError.internalServer('Error sending email');
+
+        return true;
+    }
+
+    public validateEmail = async( token: string ) => {
+        const payload = await JWTAdapter.validateToken( token );
+        if ( !payload ) throw CustomError.unauthorizedRequest('Invalid token');
+
+        const { email } = payload as { email: string};
+        if ( !email ) throw CustomError.internalServer('Email not in token');
+
+        const user = await UserModel.findOne({ email });
+        if ( !user ) throw CustomError.internalServer('User not exists');
+
+        user.emailValidated = true;
+        await user.save();
 
         return true;
     }
