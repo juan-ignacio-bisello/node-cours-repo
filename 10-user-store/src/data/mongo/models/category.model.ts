@@ -3,7 +3,8 @@ import mongoose, { Schema } from "mongoose";
 const categorySchema = new mongoose.Schema({
     name: {
         type: String,
-        require: [true, 'Name is require']
+        require: [true, 'Name is require'],
+        unique: true,
     },
     available: {
         type: Boolean,
