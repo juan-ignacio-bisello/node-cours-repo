@@ -34,7 +34,9 @@ export class ProductService {
                     ProductModel.countDocuments(),
                     ProductModel.find()
                         .skip( ( page - 1 ) * limit)
-                        .limit( limit ),
+                        .limit( limit )
+                        .populate( 'user', 'name email' )
+                        .populate( 'category' )
                 ])
     
                 return {
