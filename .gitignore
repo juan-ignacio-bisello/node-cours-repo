@@ -5,3 +5,5 @@ certificate
 .DS_Store
 
 postgres/
+# Local Netlify folder
+.netlify
