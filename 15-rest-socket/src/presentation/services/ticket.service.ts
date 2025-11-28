@@ -1,31 +1,27 @@
 import { UuidAdapter } from "../../config/uuidAdapter";
 import { Ticket } from '../../domain/interfaces/ticket';
+import { WssService } from './wss.service';
 
 
 
 export class TicketService {
 
-    public readonly ticket: Ticket[] = [
+    constructor () {}
+
+    public ticket: Ticket[] = [
         { id: UuidAdapter.v4(), number: 1, createAt: new Date(), done: true },
         { id: UuidAdapter.v4(), number: 2, createAt: new Date(), done: true },
         { id: UuidAdapter.v4(), number: 3, createAt: new Date(), done: false },
         { id: UuidAdapter.v4(), number: 4, createAt: new Date(), done: false },
         { id: UuidAdapter.v4(), number: 5, createAt: new Date(), done: false },
         { id: UuidAdapter.v4(), number: 6, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 7, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 8, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 9, createAt: new Date(), done: true },
-        { id: UuidAdapter.v4(), number: 10, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 11, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 12, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 13, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 14, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 15, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 16, createAt: new Date(), done: false },
-        { id: UuidAdapter.v4(), number: 17, createAt: new Date(), done: false },
     ];
 
     private readonly workingOnTickets: Ticket[] = []
+
+    private get wssService() {
+        return WssService.instance;
+    }
 
     public get pendingTickets(): Ticket[] {
         return this.ticket.filter( ticket => !ticket.handleAtDest );
@@ -49,6 +45,8 @@ export class TicketService {
 
         this.ticket.push( ticket );
 
+        this.onTicketNumberChanged();
+
         return ticket;
     }
 
@@ -60,6 +58,8 @@ export class TicketService {
         ticket.handleAt = new Date();
 
         this.workingOnTickets.unshift({...ticket});
+        this.onTicketNumberChanged();
+        this.onWorkingOnChanged();
 
         return { status: 'ok', ticket }
     }
@@ -68,8 +68,21 @@ export class TicketService {
         const ticket = this.ticket.find( t => t.id === id );
         if ( !ticket ) return { status: 'error', message: 'Ticket no encontrado'};
 
+        this.ticket.map( ticket => {
+            if ( ticket.id === id ) {
+                ticket.done = true;
+            }
+        })
         ticket.done = true;
         
         return { status: 'ok', ticket }
+    }
+
+    private onTicketNumberChanged () {
+        this.wssService.sendMessage('on-ticket-count-changed', this.pendingTickets.length );
+    }
+
+    private onWorkingOnChanged() {
+        this.wssService.sendMessage('on-working-changed', this.lastWorkingOnTickets );
     }
 }

@@ -13,7 +13,8 @@ export class TicketController {
     }
     
     public getLastTicketsNumber = async ( req: Request, res: Response ) => {
-        res.json( this.ticketService.lastTicketNumber );
+        res.json(this.ticketService.lastTicketNumber() );
+
     }
     
     public PendingTickets = async ( req: Request, res: Response ) => {
